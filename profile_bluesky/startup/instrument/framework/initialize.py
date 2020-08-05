@@ -26,7 +26,7 @@ callback_db = {}
 
 # Set up a Broker.
 import databroker
-db = databroker.Broker.named('mongodb_config')
+db = databroker.Broker.named('temp')
 
 # Subscribe metadatastore to documents.
 # If this is removed, data is not saved to metadatastore.
@@ -72,7 +72,7 @@ import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
 import numpy as np
 
-# Uncomment the following lines to turn on 
+# Uncomment the following lines to turn on
 # verbose messages for debugging.
 # ophyd.logger.setLevel(logging.DEBUG)
 
