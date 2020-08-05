@@ -9,15 +9,18 @@ __all__ = [
 from ..session_logs import logger
 logger.info(__file__)
 
-from ophyd import Component, Device, EpicsMotor
+from apstools.devices import KohzuSeqCtl_Monochromator
+from ophyd import Component, EpicsMotor, EpicsSignal
 
-class Monochromator(Device):
-    th = EpicsMotor('4idb:m1', name='mono', labels=('motor',))  # Kohzu Theta # home_slew_rate=0
-    y = EpicsMotor('4idb:m2', name='mon_y', labels=('motor',))  # Kohzu Y2
-    z = EpicsMotor('4idb:m3', name='mon_z', labels=('motor',))  # Kohzu Y2  # Kohzu Z2
-    thf = EpicsMotor('4idb:m4', name='mon_thf', labels=('motor',))  # Kohzu Th2f
-    chi = EpicsMotor('4idb:m5', name='mon_chi', labels=('motor',))  # Kohzu Chi
+class Monochromator(KohzuSeqCtl_Monochromator):
 
-mono = Monochromator(name='mono')
+    th = Component(EpicsMotor,'m1', labels=('motor','monochromator'))  # Kohzu Theta # home_slew_rate=0
+    y = Component(EpicsMotor,'m2', labels=('motor','monochromator'))  # Kohzu Y2
+    z = Component(EpicsMotor,'m3', labels=('motor','monochromator'))  # Kohzu Z2
+    thf = Component(EpicsMotor,'m4',labels=('motor','monochromator'))  # Kohzu Th2f
+    chi = Component(EpicsMotor,'m5', labels=('motor','monochromator'))  # Kohzu Chi
 
-# TODO: ~~~ REPLACE THIS BY KOHZU FROM APSUTILS ~~~
+
+mono = Monochromator('4idb:', name='monochromator')
+mono.mode.put('auto') #Switch mono to "auto".
+mono.stage_sigs['mode'] = 1 #Ensure that mono is in auto before moving.
